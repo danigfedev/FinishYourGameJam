@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TestYGradient
+  m_Shader: {fileID: -6465566751694194690, guid: 1a87c18f2a38b594eb5da4fc31ddca83, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - Vector1_49161E0A: 0.5
+    - Vector1_D4CF59B4: 0
+    m_Colors:
+    - Color_CC01FE44: {r: 0.77551496, g: 0.7830189, b: 0.38781595, a: 1}
+    - Color_F5A3BAF3: {r: 0.23028333, g: 0.5660378, b: 0.1254895, a: 1}
+  m_BuildTextureStacks: []
