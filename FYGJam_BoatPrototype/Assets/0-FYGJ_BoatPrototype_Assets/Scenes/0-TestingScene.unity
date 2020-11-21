@@ -1241,6 +1241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42fe5ff423b1cca4ca8f861512c2d73c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBoat: 0
   airDrag: -1
   waterDrag: 0.5
 --- !u!54 &1274541672
@@ -1812,6 +1813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42fe5ff423b1cca4ca8f861512c2d73c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBoat: 0
   airDrag: -1
   waterDrag: 0.5
 --- !u!54 &1912725143
@@ -2352,21 +2354,25 @@ PrefabInstance:
       propertyPath: SteerPower
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 913332094750969464, guid: 6761dc826775f774bbe07e3d32e2e2d5, type: 3}
+      propertyPath: steerOnIdle
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6954595490143560196, guid: 6761dc826775f774bbe07e3d32e2e2d5, type: 3}
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6954595490143560196, guid: 6761dc826775f774bbe07e3d32e2e2d5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.51
+      value: 13.3
       objectReference: {fileID: 0}
     - target: {fileID: 6954595490143560196, guid: 6761dc826775f774bbe07e3d32e2e2d5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.18
+      value: 15.63
       objectReference: {fileID: 0}
     - target: {fileID: 6954595490143560196, guid: 6761dc826775f774bbe07e3d32e2e2d5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6954595490143560196, guid: 6761dc826775f774bbe07e3d32e2e2d5, type: 3}
       propertyPath: m_LocalRotation.w

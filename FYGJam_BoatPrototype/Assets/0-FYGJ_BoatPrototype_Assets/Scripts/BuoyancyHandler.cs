@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class BuoyancyHandler : MonoBehaviour
 {
+    [HideInInspector]
+    public bool isBoat = false;
     [Header("Physics properties")]
     public float airDrag = 1;
     public float waterDrag = 10;
@@ -15,9 +17,25 @@ public class BuoyancyHandler : MonoBehaviour
     private Rigidbody rigidBody;
     private Vector3 smoothVectorRotation;
 
-
     private void Awake()
     {
+        //This check is necessary in one situation: BoatController removed from object (in Editor)
+        if (GetComponent<BoatController>() == null)
+            isBoat = false;
+
+        if (!isBoat)
+            Initialize();
+    }
+
+    void FixedUpdate()
+    {
+        if(!isBoat)
+            HandleBuoyancy();
+    }
+
+    public void Initialize(/*bool isBoatStatus = false*/)
+    {
+        //isBoat = isBoatStatus;
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.useGravity = false;
 
@@ -26,10 +44,10 @@ public class BuoyancyHandler : MonoBehaviour
 
         Vector3 floatingPointsAvgCenter = GeometryHelper.GetCenterPoint(GetFloatingPointPositions());
         floatingOffset = floatingPointsAvgCenter - transform.position;
+
     }
 
-    
-    void FixedUpdate()
+    public void HandleBuoyancy()
     {
         //1- Get Water line and floating points' position
         Vector3[] floatingPointsPos = GetFloatingPointPositions();
@@ -41,7 +59,7 @@ public class BuoyancyHandler : MonoBehaviour
 
         //3-Update object's vertical position depending on water line avg position
         //and object's position
-        
+
         //Calculating theoreticial waterLine based in initial offset 
         //(theoretically perpendicular to the water's surface)
         Vector3 altWaterLine = transform.position + floatingOffset;
@@ -55,7 +73,7 @@ public class BuoyancyHandler : MonoBehaviour
                                     avgWaterLine.y - floatingOffset.y,
                                     rigidBody.position.z);
         }
-        
+
         //4-Apply gravity
         //transform.position will update at the end of the FixedUpdate loop to match
         //Rigidbody.position. It eases physics/collisions calculations.
@@ -72,6 +90,7 @@ public class BuoyancyHandler : MonoBehaviour
             rigidBody.rotation = Quaternion.FromToRotation(transform.up, waterLineNormal) * rigidBody.rotation;
         }
     }
+
 
     /// <summary>
     /// Checks if there is any floating point under water (below corresponding water line point)
