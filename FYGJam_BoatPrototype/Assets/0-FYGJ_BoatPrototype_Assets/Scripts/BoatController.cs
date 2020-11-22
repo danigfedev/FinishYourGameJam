@@ -112,10 +112,10 @@ public class BoatController : MonoBehaviour
         {
             //Two aproaches: a) forward direction or b) horizontal forward direction
             //a)Not bad, but a sometimes behaving extrange while jumping on air
-            //rigidBody.MovePosition(transform.position + transform.forward /** motion * maxForwardSpeed*/* motionSpeed * Time.fixedDeltaTime);
+            //rigidBody.MovePosition(transform.position + transform.forward * motionSpeed * Time.fixedDeltaTime);
             //b) Seems OK, even when jumping. Applied for now until further testing in a more polished scenario
             Vector3 horizontalForward = Vector3.Scale(transform.forward, new Vector3(1, 0, 1));
-            rigidBody.MovePosition(transform.position + horizontalForward /** motion * maxForwardSpeed*/* motionSpeed * Time.fixedDeltaTime);
+            rigidBody.MovePosition(transform.position + horizontalForward * motionSpeed * Time.fixedDeltaTime);
         }
 
 
@@ -128,13 +128,14 @@ public class BoatController : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
             steer = 1;
 
+        //2-Steering =============================
         motionFactor = (Mathf.Abs(motionSpeed) > 0.05f || steerOnIdle) ? motionFactor : 0;
         float steerTime = Mathf.Abs(steer) > 0 ? steerAccelerationTime : steerDecelerationTime;
         //Note: Have into account motion orientation to flip horizontal axes when going backwards
         steerSpeed = Mathf.SmoothDamp(steerSpeed, onWater * steer * motionFactor * maxSteerSpeed, ref currentSteerSpeed, steerTime);
         if (Mathf.Abs(steerSpeed) > 0.05f)//steering threshold
         {
-            Vector3 m_EulerAngleVelocity = transform.up /* steer*/ * steerSpeed; //Vector3.up
+            Vector3 m_EulerAngleVelocity = transform.up * steerSpeed; //Vector3.up
             Quaternion deltaRotation = Quaternion.Euler(m_EulerAngleVelocity * Time.fixedDeltaTime);
             rigidBody.MoveRotation(rigidBody.rotation * deltaRotation);
         }
