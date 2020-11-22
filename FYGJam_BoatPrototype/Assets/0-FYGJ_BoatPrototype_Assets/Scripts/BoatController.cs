@@ -26,6 +26,8 @@ public class BoatController : MonoBehaviour
     [Tooltip("Time to decelerate from max steering speed")]
     public float motionDecelerationTime = 1f;//seconds
 
+    public float motionDecelerationTimeOnAir = 1.5f;
+
     /*
     [Header("Forces approach")]
     //Forces approach
@@ -72,28 +74,21 @@ public class BoatController : MonoBehaviour
     int onWater = 1;
     private void HandleBoatControl()
     {
-
+        //0-Check if floating
         if (rigidBody.drag == buoyancyHandler.airDrag)
-        {
             timeOnAir += Time.fixedDeltaTime;
-        }
         else
         {
-            //TODO deceleration Rate on air! (for both steering and moving)
-            // air's friction is not as strong as water's!
             timeOnAir = 0;
             onWater = 1;
         }
-            
         
-        if (timeOnAir > 0.5f)
-        {
-            Debug.LogWarning("Boat on air");
+        if (timeOnAir > 0.5f)//Out of water offset to start behaving like that
             onWater = 0;
-        }
-            
+
 
         //1-Moving =============================
+
         int motion = 0;
         int motionFactor = 1;
         if (Input.GetKey(KeyCode.W))
@@ -107,10 +102,21 @@ public class BoatController : MonoBehaviour
             motionFactor *= motion;
         }
 
-        float motionTime = Mathf.Abs(motion) > 0 ? motionAccelerationTime : motionDecelerationTime;
+        float motionTime;
+        if (onWater == 0) //If on air, apply a different deceleration resistance (time)
+            motionTime = motionDecelerationTimeOnAir;
+        else
+            motionTime = Mathf.Abs(motion) > 0 ? motionAccelerationTime : motionDecelerationTime;
         motionSpeed = Mathf.SmoothDamp(motionSpeed, onWater*motion * maxForwardSpeed, ref currentMotionSpeed, motionTime);
         if (Mathf.Abs(motionSpeed) > 0.05f)//moption threshold
-            rigidBody.MovePosition(transform.position + transform.forward /** motion * maxForwardSpeed*/* motionSpeed * Time.fixedDeltaTime);
+        {
+            //Two aproaches: a) forward direction or b) horizontal forward direction
+            //a)Not bad, but a sometimes behaving extrange while jumping on air
+            //rigidBody.MovePosition(transform.position + transform.forward /** motion * maxForwardSpeed*/* motionSpeed * Time.fixedDeltaTime);
+            //b) Seems OK, even when jumping. Applied for now until further testing in a more polished scenario
+            Vector3 horizontalForward = Vector3.Scale(transform.forward, new Vector3(1, 0, 1));
+            rigidBody.MovePosition(transform.position + horizontalForward /** motion * maxForwardSpeed*/* motionSpeed * Time.fixedDeltaTime);
+        }
 
 
         //2-Steering =============================
@@ -123,10 +129,9 @@ public class BoatController : MonoBehaviour
             steer = 1;
 
         motionFactor = (Mathf.Abs(motionSpeed) > 0.05f || steerOnIdle) ? motionFactor : 0;
-
         float steerTime = Mathf.Abs(steer) > 0 ? steerAccelerationTime : steerDecelerationTime;
         //Note: Have into account motion orientation to flip horizontal axes when going backwards
-        steerSpeed = Mathf.SmoothDamp(steerSpeed, onWater*steer * motionFactor * maxSteerSpeed, ref currentSteerSpeed, steerTime);
+        steerSpeed = Mathf.SmoothDamp(steerSpeed, onWater * steer * motionFactor * maxSteerSpeed, ref currentSteerSpeed, steerTime);
         if (Mathf.Abs(steerSpeed) > 0.05f)//steering threshold
         {
             Vector3 m_EulerAngleVelocity = transform.up /* steer*/ * steerSpeed; //Vector3.up
