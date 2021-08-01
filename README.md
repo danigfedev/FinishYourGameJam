@@ -2,16 +2,13 @@
 
 # Description
 
-http://github.com - automatic!
-[GitHub](http://github.com)
+*Boat navigation system prototype* is a module developed in Unity (version 2020.1.13f1) for the "Finish Your Game" Jam organized by PIGSquad, that implements a boat buoyancy and control system mixing physics and shader-based functionality. This module is [downloadable as a Unity package here](https://github.com/danigfedev/FinishYourGameJam/releases/tag/v1.0), and was conceived to be used as part of bigger projects in the future.
 
-*Boat navigation system prototype* is a module developed in Unity (version 2020.1.13f1) for the "Finish Your Game" Jam organized by PIGSquad, that implements a boat buoyancy and control system mixing physics and shader-based functionality. This module is [downloadable as a Unity package here] (https://github.com/danigfedev/FinishYourGameJam/releases/tag/v1.0), and was conceived to be used as part of bigger projects in the future.
-
-The idea of exploring this approach to boat navigation was born during the development of my previous project [Remote Island Cleaning Services] (https://github.com/danigfedev/CleanSailingGame).
+The idea of exploring this approach to boat navigation was born during the development of my previous project [Remote Island Cleaning Services](https://github.com/danigfedev/CleanSailingGame).
 
 # Technical details:
 
-The whole process is summarized in this [Twitter thread] (https://twitter.com/espidi_fen/status/1330499235712790528?s=20)
+The whole process is summarized in this [Twitter thread](https://twitter.com/espidi_fen/status/1330499235712790528?s=20)
 
 ## * Shader based sine wave (one single wave)
 
